@@ -3,7 +3,7 @@ package command
 import (
 	"errors"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/model"
+	"github.com/JOIN-M-Y/server/file/model"
 )
 
 func (bus *Bus) handleCreateCommand(command *CreateCommand) (*model.File, error) {

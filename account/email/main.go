@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/smtp"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
+	"github.com/JOIN-M-Y/server/config"
 )
 
 // Interface email interface

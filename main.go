@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/account"
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile"
-	"github.com/kyhsa93/gin-rest-cqrs-example/util"
+	"github.com/JOIN-M-Y/server/account"
+	"github.com/JOIN-M-Y/server/config"
+	"github.com/JOIN-M-Y/server/file"
+	"github.com/JOIN-M-Y/server/profile"
+	"github.com/JOIN-M-Y/server/util"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

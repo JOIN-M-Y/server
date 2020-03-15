@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/JOIN-M-Y/server/profile/entity"
 	"github.com/go-redis/redis"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/entity"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )

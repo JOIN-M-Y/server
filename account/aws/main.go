@@ -1,11 +1,11 @@
 package aws
 
 import (
+	"github.com/JOIN-M-Y/server/config"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
 )
 
 // Interface aws service interface

@@ -3,7 +3,7 @@ package command
 import (
 	"errors"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/model"
+	"github.com/JOIN-M-Y/server/profile/model"
 )
 
 func (bus *Bus) handleUpdateCommand(

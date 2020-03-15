@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	account "github.com/kyhsa93/gin-rest-cqrs-example/account/model"
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/body"
-	profile "github.com/kyhsa93/gin-rest-cqrs-example/profile/model"
+	account "github.com/JOIN-M-Y/server/account/model"
+	"github.com/JOIN-M-Y/server/config"
+	"github.com/JOIN-M-Y/server/profile/body"
+	profile "github.com/JOIN-M-Y/server/profile/model"
 )
 
 // Interface api interface

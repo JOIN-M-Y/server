@@ -3,15 +3,15 @@ package profile
 import (
 	"context"
 
+	"github.com/JOIN-M-Y/server/config"
+	"github.com/JOIN-M-Y/server/profile/api"
+	"github.com/JOIN-M-Y/server/profile/command"
+	"github.com/JOIN-M-Y/server/profile/controller"
+	"github.com/JOIN-M-Y/server/profile/query"
+	"github.com/JOIN-M-Y/server/profile/repository"
+	"github.com/JOIN-M-Y/server/util"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/api"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/command"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/controller"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/query"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/repository"
-	"github.com/kyhsa93/gin-rest-cqrs-example/util"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

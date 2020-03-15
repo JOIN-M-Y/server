@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
+	"github.com/JOIN-M-Y/server/file/query"
 	"github.com/gin-gonic/gin"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/query"
 )
 
 // @Tags Files

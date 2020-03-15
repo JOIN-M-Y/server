@@ -1,8 +1,8 @@
 package command
 
 import (
+	"github.com/JOIN-M-Y/server/profile/model"
 	"github.com/google/uuid"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/model"
 )
 
 func (bus *Bus) handleCreateCommand(

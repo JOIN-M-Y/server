@@ -3,7 +3,7 @@ package util_test
 import (
 	"testing"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/util"
+	"github.com/JOIN-M-Y/server/util"
 )
 
 // TestInitialize test InitizlizeUtil method

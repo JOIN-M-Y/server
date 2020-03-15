@@ -1,6 +1,6 @@
 package error
 
-import "github.com/kyhsa93/gin-rest-cqrs-example/util/error/http"
+import "github.com/JOIN-M-Y/server/util/error/http"
 
 // Interface util error interface
 type Interface interface {

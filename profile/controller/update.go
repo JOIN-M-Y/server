@@ -3,10 +3,10 @@ package controller
 import (
 	"net/http"
 
+	"github.com/JOIN-M-Y/server/profile/command"
+	"github.com/JOIN-M-Y/server/profile/dto"
+	"github.com/JOIN-M-Y/server/profile/query"
 	"github.com/gin-gonic/gin"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/command"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/dto"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/query"
 )
 
 // @Description update profile

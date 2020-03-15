@@ -3,9 +3,9 @@ package controller
 import (
 	"net/http"
 
+	"github.com/JOIN-M-Y/server/file/command"
+	"github.com/JOIN-M-Y/server/file/dto"
 	"github.com/gin-gonic/gin"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/command"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/dto"
 )
 
 // @Description create file

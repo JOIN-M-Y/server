@@ -3,10 +3,10 @@ package controller
 import (
 	"net/http"
 
+	"github.com/JOIN-M-Y/server/account/dto"
+	"github.com/JOIN-M-Y/server/account/query"
 	"github.com/badoux/checkmail"
 	"github.com/gin-gonic/gin"
-	"github.com/kyhsa93/gin-rest-cqrs-example/account/dto"
-	"github.com/kyhsa93/gin-rest-cqrs-example/account/query"
 )
 
 // @Tags Account

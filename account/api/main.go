@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/model"
-	file "github.com/kyhsa93/gin-rest-cqrs-example/file/model"
-	"github.com/kyhsa93/gin-rest-cqrs-example/profile/dto"
-	profile "github.com/kyhsa93/gin-rest-cqrs-example/profile/model"
+	"github.com/JOIN-M-Y/server/config"
+	"github.com/JOIN-M-Y/server/file/model"
+	file "github.com/JOIN-M-Y/server/file/model"
+	"github.com/JOIN-M-Y/server/profile/dto"
+	profile "github.com/JOIN-M-Y/server/profile/model"
 )
 
 // Interface api interace

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/kyhsa93/gin-rest-cqrs-example/docs"
+	"github.com/JOIN-M-Y/server/docs"
 )
 
 // Swagger swagger config struct

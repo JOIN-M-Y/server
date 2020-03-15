@@ -8,14 +8,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/api"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/aws"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/command"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/controller"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/query"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/repository"
-	"github.com/kyhsa93/gin-rest-cqrs-example/util"
+	"github.com/JOIN-M-Y/server/config"
+	"github.com/JOIN-M-Y/server/file/api"
+	"github.com/JOIN-M-Y/server/file/aws"
+	"github.com/JOIN-M-Y/server/file/command"
+	"github.com/JOIN-M-Y/server/file/controller"
+	"github.com/JOIN-M-Y/server/file/query"
+	"github.com/JOIN-M-Y/server/file/repository"
+	"github.com/JOIN-M-Y/server/util"
 )
 
 func getMongoDBClient(config config.Interface) *mongo.Collection {

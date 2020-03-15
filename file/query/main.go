@@ -3,10 +3,10 @@ package query
 import (
 	"errors"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/entity"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/model"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/repository"
+	"github.com/JOIN-M-Y/server/config"
+	"github.com/JOIN-M-Y/server/file/entity"
+	"github.com/JOIN-M-Y/server/file/model"
+	"github.com/JOIN-M-Y/server/file/repository"
 )
 
 // Bus file query bus

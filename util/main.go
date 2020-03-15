@@ -1,7 +1,7 @@
 package util
 
 import (
-	"github.com/kyhsa93/gin-rest-cqrs-example/util/error"
+	"github.com/JOIN-M-Y/server/util/error"
 )
 
 // Interface Utile interface

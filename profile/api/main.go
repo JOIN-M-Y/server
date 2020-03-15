@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	account "github.com/kyhsa93/gin-rest-cqrs-example/account/model"
-	"github.com/kyhsa93/gin-rest-cqrs-example/config"
-	file "github.com/kyhsa93/gin-rest-cqrs-example/file/model"
+	account "github.com/JOIN-M-Y/server/account/model"
+	"github.com/JOIN-M-Y/server/config"
+	file "github.com/JOIN-M-Y/server/file/model"
 )
 
 // Interface external api interface

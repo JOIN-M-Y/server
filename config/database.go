@@ -28,7 +28,7 @@ type Database struct {
 func NewDatabaseConfig() *Database {
 	port := "27017"
 	host := "localhost"
-	name := "gin-rest-cqrs-example"
+	name := "server"
 	user := "root"
 	password := "test"
 

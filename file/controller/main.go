@@ -3,12 +3,12 @@ package controller
 import (
 	"errors"
 
+	"github.com/JOIN-M-Y/server/account/model"
+	"github.com/JOIN-M-Y/server/file/api"
+	"github.com/JOIN-M-Y/server/file/command"
+	"github.com/JOIN-M-Y/server/file/query"
+	"github.com/JOIN-M-Y/server/util"
 	"github.com/gin-gonic/gin"
-	"github.com/kyhsa93/gin-rest-cqrs-example/account/model"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/api"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/command"
-	"github.com/kyhsa93/gin-rest-cqrs-example/file/query"
-	"github.com/kyhsa93/gin-rest-cqrs-example/util"
 )
 
 // Controller file controller struct

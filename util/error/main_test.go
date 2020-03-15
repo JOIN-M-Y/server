@@ -3,7 +3,7 @@ package error_test
 import (
 	"testing"
 
-	"github.com/kyhsa93/gin-rest-cqrs-example/util/error"
+	"github.com/JOIN-M-Y/server/util/error"
 )
 
 // TestNew test new method in error package
