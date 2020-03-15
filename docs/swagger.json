@@ -145,6 +145,67 @@
                 }
             }
         },
+        "/address": {
+            "get": {
+                "security": [
+                    {
+                        "AccessToken": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Address"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Address"
+                        }
+                    }
+                }
+            }
+        },
+        "/address/{first_depth_name}": {
+            "get": {
+                "security": [
+                    {
+                        "AccessToken": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Address"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "region first depth name",
+                        "name": "first_depth_name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Address"
+                        }
+                    }
+                }
+            }
+        },
         "/files": {
             "post": {
                 "security": [
@@ -486,6 +547,10 @@
                     "example": "2019-12-23 12:27:37"
                 }
             }
+        },
+        "model.Address": {
+            "type": "array",
+            "items": {}
         },
         "model.File": {
             "type": "object",

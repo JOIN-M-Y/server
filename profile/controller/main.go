@@ -76,7 +76,9 @@ func (controller *Controller) GetAccountByAccessToken(
 }
 
 // ValidateFileID validate image key
-func (controller *Controller) ValidateFileID(accountID string, fileID string) bool {
+func (controller *Controller) ValidateFileID(
+	accountID string, fileID string,
+) bool {
 	if fileID == "" {
 		return true
 	}
