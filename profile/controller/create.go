@@ -52,7 +52,7 @@ func (controller *Controller) create(context *gin.Context) {
 		context.JSON(httpError.Code(), httpError.Message())
 		return
 	}
-	if alreadyExisted.ID != "" {
+	if alreadyExisted[0].ID != "" {
 		httpError := controller.util.Error.HTTP.Conflict()
 		context.JSON(httpError.Code(), "Profile is already existed.")
 		return

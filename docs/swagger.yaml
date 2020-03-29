@@ -52,6 +52,27 @@ definitions:
           type: string
         type: array
     type: object
+  body.CreateStudy:
+    properties:
+      addressFirstDepthName:
+        example: 서울
+        type: string
+      addressSecondDepthName:
+        example: 강남
+        type: string
+      description:
+        example: description
+        type: string
+      recruitEndDate:
+        example: "2019-12-23 12:27:37"
+        type: string
+      recruitment:
+        example: 10
+        type: integer
+      title:
+        example: title
+        type: string
+    type: object
   body.UpdateAccount:
     properties:
       fcmToken:
@@ -127,6 +148,7 @@ definitions:
         example: "2019-12-23 12:27:37"
         type: string
       gender:
+        example: male
         type: string
       id:
         example: profileId
@@ -146,6 +168,97 @@ definitions:
         type: array
       updatedAt:
         example: "2019-12-23 12:27:37"
+        type: string
+    type: object
+  model.Study:
+    properties:
+      addressFirstDepthName:
+        example: 서울
+        type: string
+      addressSecondDepthName:
+        example: 강남
+        type: string
+      description:
+        example: description
+        type: string
+      id:
+        example: studyId
+        type: string
+      interestedField:
+        example: develop
+        type: string
+      membersProfile:
+        items:
+          properties:
+            accountId:
+              example: accountId
+              type: string
+            createdAt:
+              example: "2019-12-23 12:27:37"
+              type: string
+            gender:
+              example: male
+              type: string
+            id:
+              example: profileId
+              type: string
+            imageUrl:
+              example: profile.image_url.com
+              type: string
+            interestedField:
+              example: develop
+              type: string
+            interestedFieldDetail:
+              example:
+              - web
+              - server
+              items:
+                type: string
+              type: array
+            updatedAt:
+              example: "2019-12-23 12:27:37"
+              type: string
+          type: object
+        type: array
+      ownerProfile:
+        properties:
+          accountId:
+            example: accountId
+            type: string
+          createdAt:
+            example: "2019-12-23 12:27:37"
+            type: string
+          gender:
+            example: male
+            type: string
+          id:
+            example: profileId
+            type: string
+          imageUrl:
+            example: profile.image_url.com
+            type: string
+          interestedField:
+            example: develop
+            type: string
+          interestedFieldDetail:
+            example:
+            - web
+            - server
+            items:
+              type: string
+            type: array
+          updatedAt:
+            example: "2019-12-23 12:27:37"
+            type: string
+        type: object
+      public:
+        example: true
+        type: boolean
+      recruitment:
+        example: 10
+        type: integer
+      title:
+        example: title
         type: string
     type: object
 info:
@@ -323,6 +436,13 @@ paths:
     get:
       consumes:
       - application/json
+      parameters:
+      - description: profileId list
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
       produces:
       - application/json
       responses:
@@ -399,6 +519,30 @@ paths:
             $ref: '#/definitions/model.Profile'
       tags:
       - Profiles
+  /studies:
+    post:
+      consumes:
+      - application/json
+      description: create study
+      parameters:
+      - description: Create Study data
+        in: body
+        name: CreateStudy
+        required: true
+        schema:
+          $ref: '#/definitions/body.CreateStudy'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Study'
+      security:
+      - AccessToken: []
+      tags:
+      - Studies
 securityDefinitions:
   AccessToken:
     in: header

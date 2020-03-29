@@ -21,12 +21,14 @@ func New(config config.Interface, repository repository.Interface) *Bus {
 }
 
 // Handle handle query
-func (bus *Bus) Handle(query interface{}) (*model.Profile, error) {
+func (bus *Bus) Handle(query interface{}) ([]*model.Profile, error) {
 	switch query := query.(type) {
 	case *ReadProfileByIDQuery:
 		return bus.handleReadProfileByIDQuery(query)
 	case *ReadProfileByAccountIDQuery:
 		return bus.handleReadProfileByAccountIDQuery(query)
+	case *ReadProfileByIDListQuery:
+		return bus.handleReadProfileByIDListQuery(query)
 	default:
 		return nil, errors.New("Invalid query")
 	}

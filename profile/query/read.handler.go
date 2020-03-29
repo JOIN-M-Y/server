@@ -8,7 +8,7 @@ import (
 
 func (bus *Bus) handleReadProfileByIDQuery(
 	query *ReadProfileByIDQuery,
-) (*model.Profile, error) {
+) ([]*model.Profile, error) {
 	profileEntity, err := bus.repository.FindByID(query.ProfileID)
 	if err != nil {
 		return nil, err
@@ -17,17 +17,40 @@ func (bus *Bus) handleReadProfileByIDQuery(
 	if profileEntity.ID == "" {
 		return nil, errors.New("Profile is not found")
 	}
-	return bus.entityToModel(profileEntity), nil
+	profileList := []*model.Profile{}
+	profile := bus.entityToModel(profileEntity)
+	profileList = append(profileList, profile)
+	return profileList, nil
 }
 
 func (bus *Bus) handleReadProfileByAccountIDQuery(
 	query *ReadProfileByAccountIDQuery,
-) (*model.Profile, error) {
+) ([]*model.Profile, error) {
 	profileEntity, err := bus.repository.FindByAccountID(
 		query.AccountID,
 	)
 	if err != nil {
 		return nil, err
 	}
-	return bus.entityToModel(profileEntity), nil
+	profileList := []*model.Profile{}
+	profile := bus.entityToModel(profileEntity)
+	profileList = append(profileList, profile)
+	return profileList, nil
+}
+
+func (bus *Bus) handleReadProfileByIDListQuery(
+	query *ReadProfileByIDListQuery,
+) ([]*model.Profile, error) {
+	profileEntityList, err := bus.repository.FindByIDList(
+		query.ProfileIDList,
+	)
+	if err != nil {
+		return nil, err
+	}
+	profileList := []*model.Profile{}
+	for _, profileEntity := range profileEntityList {
+		profile := bus.entityToModel(profileEntity)
+		profileList = append(profileList, profile)
+	}
+	return profileList, nil
 }

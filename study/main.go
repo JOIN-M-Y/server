@@ -1,15 +1,8 @@
-package account
+package study
 
 import (
 	"context"
 
-	"github.com/JOIN-M-Y/server/account/api"
-	"github.com/JOIN-M-Y/server/account/aws"
-	"github.com/JOIN-M-Y/server/account/command"
-	"github.com/JOIN-M-Y/server/account/controller"
-	"github.com/JOIN-M-Y/server/account/email"
-	"github.com/JOIN-M-Y/server/account/query"
-	"github.com/JOIN-M-Y/server/account/repository"
 	"github.com/JOIN-M-Y/server/config"
 	"github.com/JOIN-M-Y/server/util"
 	"github.com/gin-gonic/gin"
@@ -45,17 +38,9 @@ func getRedisClient(config config.Interface) *redis.Client {
 	})
 }
 
-// Initialize initialize account module
+// Initialize initialize study module
 func Initialize(
 	engine *gin.Engine, config config.Interface, util *util.Util,
 ) {
-	mongoClient := getMongoDBClient(config)
-	redisClient := getRedisClient(config)
-	repository := repository.New(redisClient, mongoClient)
-	email := email.New(config)
-	aws := aws.New(config)
-	api := api.New(config)
-	commandBus := command.New(repository, email, aws, config, api)
-	queryBus := query.New(config, repository)
-	controller.New(engine, commandBus, queryBus, util, config, api)
+
 }

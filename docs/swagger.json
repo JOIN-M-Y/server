@@ -294,6 +294,17 @@
                 "tags": [
                     "Profiles"
                 ],
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "profileId list",
+                        "name": "id",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -407,6 +418,45 @@
                     }
                 }
             }
+        },
+        "/studies": {
+            "post": {
+                "security": [
+                    {
+                        "AccessToken": []
+                    }
+                ],
+                "description": "create study",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Studies"
+                ],
+                "parameters": [
+                    {
+                        "description": "Create Study data",
+                        "name": "CreateStudy",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/body.CreateStudy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Study"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -481,6 +531,35 @@
                         "web",
                         "server"
                     ]
+                }
+            }
+        },
+        "body.CreateStudy": {
+            "type": "object",
+            "properties": {
+                "addressFirstDepthName": {
+                    "type": "string",
+                    "example": "서울"
+                },
+                "addressSecondDepthName": {
+                    "type": "string",
+                    "example": "강남"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "description"
+                },
+                "recruitEndDate": {
+                    "type": "string",
+                    "example": "2019-12-23 12:27:37"
+                },
+                "recruitment": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "title": {
+                    "type": "string",
+                    "example": "title"
                 }
             }
         },
@@ -589,7 +668,8 @@
                     "example": "2019-12-23 12:27:37"
                 },
                 "gender": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "male"
                 },
                 "id": {
                     "type": "string",
@@ -616,6 +696,132 @@
                 "updatedAt": {
                     "type": "string",
                     "example": "2019-12-23 12:27:37"
+                }
+            }
+        },
+        "model.Study": {
+            "type": "object",
+            "properties": {
+                "addressFirstDepthName": {
+                    "type": "string",
+                    "example": "서울"
+                },
+                "addressSecondDepthName": {
+                    "type": "string",
+                    "example": "강남"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "description"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "studyId"
+                },
+                "interestedField": {
+                    "type": "string",
+                    "example": "develop"
+                },
+                "membersProfile": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "accountId": {
+                                "type": "string",
+                                "example": "accountId"
+                            },
+                            "createdAt": {
+                                "type": "string",
+                                "example": "2019-12-23 12:27:37"
+                            },
+                            "gender": {
+                                "type": "string",
+                                "example": "male"
+                            },
+                            "id": {
+                                "type": "string",
+                                "example": "profileId"
+                            },
+                            "imageUrl": {
+                                "type": "string",
+                                "example": "profile.image_url.com"
+                            },
+                            "interestedField": {
+                                "type": "string",
+                                "example": "develop"
+                            },
+                            "interestedFieldDetail": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "web",
+                                    "server"
+                                ]
+                            },
+                            "updatedAt": {
+                                "type": "string",
+                                "example": "2019-12-23 12:27:37"
+                            }
+                        }
+                    }
+                },
+                "ownerProfile": {
+                    "type": "object",
+                    "properties": {
+                        "accountId": {
+                            "type": "string",
+                            "example": "accountId"
+                        },
+                        "createdAt": {
+                            "type": "string",
+                            "example": "2019-12-23 12:27:37"
+                        },
+                        "gender": {
+                            "type": "string",
+                            "example": "male"
+                        },
+                        "id": {
+                            "type": "string",
+                            "example": "profileId"
+                        },
+                        "imageUrl": {
+                            "type": "string",
+                            "example": "profile.image_url.com"
+                        },
+                        "interestedField": {
+                            "type": "string",
+                            "example": "develop"
+                        },
+                        "interestedFieldDetail": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "example": [
+                                "web",
+                                "server"
+                            ]
+                        },
+                        "updatedAt": {
+                            "type": "string",
+                            "example": "2019-12-23 12:27:37"
+                        }
+                    }
+                },
+                "public": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "recruitment": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "title": {
+                    "type": "string",
+                    "example": "title"
                 }
             }
         }

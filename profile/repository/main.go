@@ -34,6 +34,9 @@ type Interface interface {
 	FindByAccountID(
 		accountID string,
 	) (entity.Profile, error)
+	FindByIDList(
+		profileIDList []string,
+	) ([]entity.Profile, error)
 }
 
 // Repository repository for profile data
@@ -173,4 +176,20 @@ func (repository *Repository) FindByAccountID(
 	).Decode(&profileEntity)
 	repository.setCache(profileEntity.ID, &profileEntity)
 	return profileEntity, nil
+}
+
+// FindByIDList find profile by profileId list
+func (repository *Repository) FindByIDList(
+	profileIDList []string,
+) ([]entity.Profile, error) {
+	profileList := []entity.Profile{}
+	cursor, err := repository.mongo.Find(
+		context.TODO(),
+		bson.M{"_id": bson.M{"$in": profileIDList}},
+	)
+	if err != nil {
+		panic(err)
+	}
+	cursor.All(context.TODO(), &profileList)
+	return profileList, nil
 }

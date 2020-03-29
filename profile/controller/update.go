@@ -39,7 +39,8 @@ func (controller *Controller) update(context *gin.Context) {
 	query := &query.ReadProfileByAccountIDQuery{
 		AccountID: data.AccountID,
 	}
-	profile, err := controller.queryBus.Handle(query)
+	profileList, err := controller.queryBus.Handle(query)
+	profile := profileList[0]
 	if profile.ID == "" || err != nil {
 		httpError := controller.util.Error.HTTP.InternalServerError()
 		context.JSON(httpError.Code(), httpError.Message())
