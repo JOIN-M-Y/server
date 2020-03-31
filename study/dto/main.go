@@ -2,7 +2,6 @@ package dto
 
 import (
 	"errors"
-	"time"
 )
 
 // CreateStudy dto for create study
@@ -10,7 +9,7 @@ type CreateStudy struct {
 	Title                  string
 	Description            string
 	Recruitment            int
-	RecruitEndDate         time.Time
+	RecruitEndDate         string
 	Public                 bool
 	AddressFirstDepthName  string
 	AddressSecondDepthName string
@@ -28,9 +27,6 @@ func (dto *CreateStudy) ValidationData() error {
 	}
 	if dto.Recruitment < 1 {
 		return errors.New("recruitment is invalid")
-	}
-	if time.Now().After(dto.RecruitEndDate) {
-		return errors.New("recruitEndDate is invalid")
 	}
 	if dto.InterestedField == "" {
 		return errors.New("interestedField is empty")

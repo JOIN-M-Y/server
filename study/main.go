@@ -4,6 +4,10 @@ import (
 	"context"
 
 	"github.com/JOIN-M-Y/server/config"
+	"github.com/JOIN-M-Y/server/study/api"
+	"github.com/JOIN-M-Y/server/study/command"
+	"github.com/JOIN-M-Y/server/study/controller"
+	"github.com/JOIN-M-Y/server/study/repository"
 	"github.com/JOIN-M-Y/server/util"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
@@ -26,7 +30,7 @@ func getMongoDBClient(config config.Interface) *mongo.Collection {
 	client.Ping(context.TODO(), nil)
 	collection := client.Database(
 		config.Database().Name(),
-	).Collection("accounts")
+	).Collection("studies")
 
 	return collection
 }
@@ -42,5 +46,10 @@ func getRedisClient(config config.Interface) *redis.Client {
 func Initialize(
 	engine *gin.Engine, config config.Interface, util *util.Util,
 ) {
-
+	mongoClient := getMongoDBClient(config)
+	redisClient := getRedisClient(config)
+	repository := repository.New(redisClient, mongoClient)
+	api := api.New(config)
+	commandBus := command.New(repository, config, api)
+	controller.New(engine, commandBus, util, config, api)
 }

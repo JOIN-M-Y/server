@@ -1,6 +1,10 @@
 package controller
 
 import (
+	"net/http"
+	"time"
+
+	"github.com/JOIN-M-Y/server/study/command"
 	"github.com/JOIN-M-Y/server/study/dto"
 	"github.com/gin-gonic/gin"
 )
@@ -25,13 +29,13 @@ func (controller *Controller) create(context *gin.Context) {
 
 	var data dto.CreateStudy
 
-	data.OwnerProfileID = profile.ID
-
 	if bindError := context.ShouldBindJSON(&data); bindError != nil {
 		httpError := controller.util.Error.HTTP.BadRequest()
 		context.JSON(httpError.Code(), httpError.Message())
 		return
 	}
+
+	data.OwnerProfileID = profile.ID
 
 	if validationError := data.ValidationData(); validationError != nil {
 		httpError := controller.util.Error.HTTP.BadRequest()
@@ -39,4 +43,31 @@ func (controller *Controller) create(context *gin.Context) {
 		return
 	}
 
+	parsedTime, err := time.Parse(time.RFC3339, data.RecruitEndDate)
+	if err != nil {
+		httpError := controller.util.Error.HTTP.BadRequest()
+		context.JSON(httpError.Code(), httpError.Message())
+		return
+	}
+
+	command := &command.CreateStudyCommand{
+		Title:                  data.Title,
+		Description:            data.Description,
+		Recruitment:            data.Recruitment,
+		RecruitEndDate:         parsedTime,
+		Public:                 data.Public,
+		AddressFirstDepthName:  data.AddressFirstDepthName,
+		AddressSecondDepthName: data.AddressSecondDepthName,
+		InterestedField:        data.InterestedField,
+		OwnerProfileID:         data.OwnerProfileID,
+	}
+
+	createdStudy, handlingError := controller.commandBus.Handle(command)
+	if handlingError != nil {
+		httpError := controller.util.Error.HTTP.InternalServerError()
+		context.JSON(httpError.Code(), httpError.Message())
+		return
+	}
+
+	context.JSON(http.StatusOK, createdStudy)
 }

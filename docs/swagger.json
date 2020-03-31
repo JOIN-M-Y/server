@@ -549,6 +549,10 @@
                     "type": "string",
                     "example": "description"
                 },
+                "interestedField": {
+                    "type": "string",
+                    "example": "develop"
+                },
                 "recruitEndDate": {
                     "type": "string",
                     "example": "2019-12-23 12:27:37"

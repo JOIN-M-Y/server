@@ -63,6 +63,9 @@ definitions:
       description:
         example: description
         type: string
+      interestedField:
+        example: develop
+        type: string
       recruitEndDate:
         example: "2019-12-23 12:27:37"
         type: string

@@ -4,11 +4,10 @@ import (
 	"errors"
 
 	"github.com/JOIN-M-Y/server/config"
-	"github.com/JOIN-M-Y/server/file/repository"
-	profile "github.com/JOIN-M-Y/server/profile/model"
 	"github.com/JOIN-M-Y/server/study/api"
 	"github.com/JOIN-M-Y/server/study/entity"
 	"github.com/JOIN-M-Y/server/study/model"
+	"github.com/JOIN-M-Y/server/study/repository"
 )
 
 // Bus study command
@@ -45,8 +44,6 @@ func (bus *Bus) Handle(
 
 func (bus *Bus) entityToModel(
 	entity entity.Study,
-	ownerProfile profile.Profile,
-	membersProfile []profile.Profile,
 ) *model.Study {
 	var studyModel model.Study
 	studyModel.ID = entity.ID
@@ -57,8 +54,14 @@ func (bus *Bus) entityToModel(
 	studyModel.AddressFirstDepthName = entity.AddressFirstDepthName
 	studyModel.AddressSecondDepthName = entity.AddressSecondDepthName
 	studyModel.InterestedField = entity.InterestedField
-	// ownderProfile = bus.api.GetProfileByAccessToken(
-	// 	entity.OwnerProfileID
-	// )
+
+	profileList, err := bus.api.GetProfileByProfileIDList(
+		[]string{entity.OwnerProfileID},
+	)
+	if len(profileList) == 0 || err != nil {
+		panic(err)
+	}
+	ownerProfile := profileList[0]
+	studyModel.OwnerProfile = *ownerProfile
 	return &studyModel
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/JOIN-M-Y/server/config"
 	"github.com/JOIN-M-Y/server/file"
 	"github.com/JOIN-M-Y/server/profile"
+	"github.com/JOIN-M-Y/server/study"
 	"github.com/JOIN-M-Y/server/util"
 
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,7 @@ func main() {
 	file.Initialize(route, config, util)
 	profile.Initialize(route, config, util)
 	address.Initialize(route, config, util)
+	study.Initialize(route, config, util)
 
 	route.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

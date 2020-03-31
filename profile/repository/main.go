@@ -82,7 +82,7 @@ func (repository *Repository) getCache(
 	return entity
 }
 
-// Create create profile data in databse
+// Create create profile data in database
 func (repository *Repository) Create(
 	profileID string,
 	accountID string,
@@ -114,7 +114,7 @@ func (repository *Repository) Create(
 	return profileEntity, nil
 }
 
-// Update update prfoile data by profileID
+// Update update profile data by profileID
 func (repository *Repository) Update(
 	profileID string,
 	interestedField string,

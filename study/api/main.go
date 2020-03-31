@@ -13,6 +13,9 @@ type Interface interface {
 	GetProfileByAccessToken(
 		accessToken string,
 	) (*profile.Profile, error)
+	GetProfileByProfileIDList(
+		profileIDList []string,
+	) ([]*profile.Profile, error)
 }
 
 // API api struct
@@ -25,6 +28,40 @@ func New(config config.Interface) *API {
 	return &API{
 		profileAPIURL: config.Server().ProfileServiceEndPoint(),
 	}
+}
+
+// GetProfileByProfileIDList get profile list by profileId list
+func (api *API) GetProfileByProfileIDList(
+	profileIDList []string,
+) ([]*profile.Profile, error) {
+	profileServiceEndpoint := api.profileAPIURL
+	request, createNewRequestError := http.NewRequest(
+		"GET",
+		profileServiceEndpoint,
+		nil,
+	)
+	if createNewRequestError != nil {
+		return nil, createNewRequestError
+	}
+	query := request.URL.Query()
+	for _, profileID := range profileIDList {
+		query.Add("id", profileID)
+	}
+	request.URL.RawQuery = query.Encode()
+	client := &http.Client{}
+	response, httpRequestError := client.Do(request)
+	if httpRequestError != nil {
+		return nil, httpRequestError
+	}
+	defer response.Body.Close()
+
+	decoder := json.NewDecoder(response.Body)
+	var profileList []*profile.Profile
+	responseBodyDecodeError := decoder.Decode(&profileList)
+	if responseBodyDecodeError != nil {
+		return nil, responseBodyDecodeError
+	}
+	return profileList, nil
 }
 
 // GetProfileByAccessToken get profile data from profile service by accesstoken
@@ -51,10 +88,10 @@ func (api *API) GetProfileByAccessToken(
 	defer response.Body.Close()
 
 	decoder := json.NewDecoder(response.Body)
-	var profile *profile.Profile
-	responseBodyDecodeError := decoder.Decode(&profile)
+	var profileList []*profile.Profile
+	responseBodyDecodeError := decoder.Decode(&profileList)
 	if responseBodyDecodeError != nil {
 		return nil, responseBodyDecodeError
 	}
-	return profile, nil
+	return profileList[0], nil
 }
