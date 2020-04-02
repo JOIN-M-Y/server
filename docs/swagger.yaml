@@ -366,8 +366,6 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Address'
-      security:
-      - AccessToken: []
       tags:
       - Address
   /address/{first_depth_name}:
@@ -387,8 +385,6 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Address'
-      security:
-      - AccessToken: []
       tags:
       - Address
   /files:
