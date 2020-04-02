@@ -7,6 +7,7 @@ import (
 	"github.com/JOIN-M-Y/server/profile/model"
 	"github.com/JOIN-M-Y/server/study/api"
 	"github.com/JOIN-M-Y/server/study/command"
+	"github.com/JOIN-M-Y/server/study/query"
 	"github.com/JOIN-M-Y/server/util"
 	"github.com/gin-gonic/gin"
 )
@@ -15,6 +16,7 @@ import (
 type Controller struct {
 	route      *gin.Engine
 	commandBus *command.Bus
+	queryBus   *query.Bus
 	util       *util.Util
 	config     config.Interface
 	api        api.Interface
@@ -24,6 +26,7 @@ type Controller struct {
 func New(
 	route *gin.Engine,
 	commandBus *command.Bus,
+	queryBus *query.Bus,
 	util *util.Util,
 	config config.Interface,
 	api api.Interface,
@@ -31,6 +34,7 @@ func New(
 	controller := &Controller{
 		route:      route,
 		commandBus: commandBus,
+		queryBus:   queryBus,
 		util:       util,
 		config:     config,
 		api:        api,
@@ -42,6 +46,7 @@ func New(
 // SetupRoutes setup study route handler
 func (controller *Controller) SetupRoutes() {
 	controller.route.POST("studies", controller.create)
+	controller.route.GET("studies/:id", controller.readByID)
 }
 
 // GetProfileByAccessToken get profile data

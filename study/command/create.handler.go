@@ -20,6 +20,7 @@ func (bus *Bus) handleCreateCommand(
 		command.AddressSecondDepthName,
 		command.InterestedField,
 		command.OwnerProfileID,
+		[]string{},
 	)
 	if createError != nil {
 		return nil, createError

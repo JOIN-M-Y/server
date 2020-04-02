@@ -1,4 +1,4 @@
-package command
+package query
 
 import (
 	"errors"
@@ -10,35 +10,33 @@ import (
 	"github.com/JOIN-M-Y/server/study/repository"
 )
 
-// Bus study command
+// Bus study query bus
 type Bus struct {
-	repository repository.Interface
 	config     config.Interface
+	repository repository.Interface
 	api        api.Interface
 }
 
 // New create Bus instance
 func New(
-	repository repository.Interface,
 	config config.Interface,
+	repository repository.Interface,
 	api api.Interface,
 ) *Bus {
 	return &Bus{
-		repository: repository,
 		config:     config,
+		repository: repository,
 		api:        api,
 	}
 }
 
-// Handle handle command
-func (bus *Bus) Handle(
-	command interface{},
-) (*model.Study, error) {
-	switch command := command.(type) {
-	case *CreateStudyCommand:
-		return bus.handleCreateCommand(command)
+// Handle handle query
+func (bus *Bus) Handle(query interface{}) (*model.Study, error) {
+	switch query := query.(type) {
+	case *ReadStudyByIDQuery:
+		return bus.handleReadStudyByIDQuery(query)
 	default:
-		return nil, errors.New("invalid command type")
+		return nil, errors.New("query can not handled")
 	}
 }
 
@@ -55,6 +53,13 @@ func (bus *Bus) entityToModel(
 	studyModel.AddressSecondDepthName = entity.AddressSecondDepthName
 	studyModel.InterestedField = entity.InterestedField
 
+	profileIDList := []string{}
+	profileIDList = append(profileIDList, entity.OwnerProfileID)
+
+	for _, memberProfileID := range entity.MembersProfileID {
+		profileIDList = append(profileIDList, memberProfileID)
+	}
+
 	profileList, err := bus.api.GetProfileByProfileIDList(
 		[]string{entity.OwnerProfileID},
 	)
@@ -63,5 +68,11 @@ func (bus *Bus) entityToModel(
 	}
 	ownerProfile := profileList[0]
 	studyModel.OwnerProfile = ownerProfile
+	if 1 < len(profileList) {
+		membersProfile := profileList[1:]
+		for index, memberProfile := range membersProfile {
+			studyModel.MembersProfile[index] = memberProfile
+		}
+	}
 	return &studyModel
 }

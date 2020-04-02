@@ -7,6 +7,7 @@ import (
 	"github.com/JOIN-M-Y/server/study/api"
 	"github.com/JOIN-M-Y/server/study/command"
 	"github.com/JOIN-M-Y/server/study/controller"
+	"github.com/JOIN-M-Y/server/study/query"
 	"github.com/JOIN-M-Y/server/study/repository"
 	"github.com/JOIN-M-Y/server/util"
 	"github.com/gin-gonic/gin"
@@ -51,5 +52,6 @@ func Initialize(
 	repository := repository.New(redisClient, mongoClient)
 	api := api.New(config)
 	commandBus := command.New(repository, config, api)
-	controller.New(engine, commandBus, util, config, api)
+	queryBus := query.New(config, repository, api)
+	controller.New(engine, commandBus, queryBus, util, config, api)
 }

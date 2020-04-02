@@ -449,8 +449,33 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "201": {}
+                }
+            }
+        },
+        "/studies/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Studies"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "studyId",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/model.Study"
                         }
@@ -555,7 +580,7 @@
                 },
                 "recruitEndDate": {
                     "type": "string",
-                    "example": "2019-12-23 12:27:37"
+                    "example": "2020-03-31T10:50:32.666Z"
                 },
                 "recruitment": {
                     "type": "integer",

@@ -7,6 +7,7 @@ import (
 
 	"github.com/JOIN-M-Y/server/study/entity"
 	"github.com/go-redis/redis"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -23,6 +24,10 @@ type Interface interface {
 		addressSecondDepthName string,
 		interestedField string,
 		ownerProfileID string,
+		membersProfileID []string,
+	) (entity.Study, error)
+	FindByID(
+		studyID string,
 	) (entity.Study, error)
 }
 
@@ -81,6 +86,7 @@ func (repository *Repository) Create(
 	addressSecondDepthName string,
 	interestedField string,
 	ownerProfileID string,
+	membersProfileID []string,
 ) (entity.Study, error) {
 	studyEntity := entity.Study{
 		ID:                     studyID,
@@ -93,6 +99,7 @@ func (repository *Repository) Create(
 		AddressSecondDepthName: addressSecondDepthName,
 		InterestedField:        interestedField,
 		OwnerProfileID:         ownerProfileID,
+		MembersProfileID:       membersProfileID,
 		CreatedAt:              time.Now(),
 		UpdatedAt:              time.Now(),
 	}
@@ -103,6 +110,22 @@ func (repository *Repository) Create(
 	if insertResult == nil || err != nil {
 		panic(err)
 	}
+	repository.setCache(studyID, &studyEntity)
+	return studyEntity, nil
+}
+
+// FindByID find study by studyID
+func (repository *Repository) FindByID(
+	studyID string,
+) (entity.Study, error) {
+	studyEntity := entity.Study{}
+	if cache := repository.getCache(studyID); cache != nil {
+		return *cache, nil
+	}
+	repository.mongo.FindOne(
+		context.TODO(),
+		bson.M{"_id": studyID, "deletedAt": nil},
+	).Decode(&studyEntity)
 	repository.setCache(studyID, &studyEntity)
 	return studyEntity, nil
 }

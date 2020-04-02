@@ -14,7 +14,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param CreateStudy body body.CreateStudy true "Create Study data"
-// @Success 201 {object} model.Study
+// @Success 201
 // @Router /studies [post]
 // @Security AccessToken
 func (controller *Controller) create(context *gin.Context) {
@@ -62,12 +62,12 @@ func (controller *Controller) create(context *gin.Context) {
 		OwnerProfileID:         data.OwnerProfileID,
 	}
 
-	createdStudy, handlingError := controller.commandBus.Handle(command)
+	_, handlingError := controller.commandBus.Handle(command)
 	if handlingError != nil {
 		httpError := controller.util.Error.HTTP.InternalServerError()
 		context.JSON(httpError.Code(), httpError.Message())
 		return
 	}
 
-	context.JSON(http.StatusOK, createdStudy)
+	context.JSON(http.StatusCreated, nil)
 }

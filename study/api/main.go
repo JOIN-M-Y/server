@@ -15,7 +15,7 @@ type Interface interface {
 	) (*profile.Profile, error)
 	GetProfileByProfileIDList(
 		profileIDList []string,
-	) ([]*profile.Profile, error)
+	) ([]profile.Profile, error)
 }
 
 // API api struct
@@ -33,7 +33,7 @@ func New(config config.Interface) *API {
 // GetProfileByProfileIDList get profile list by profileId list
 func (api *API) GetProfileByProfileIDList(
 	profileIDList []string,
-) ([]*profile.Profile, error) {
+) ([]profile.Profile, error) {
 	profileServiceEndpoint := api.profileAPIURL
 	request, createNewRequestError := http.NewRequest(
 		"GET",
@@ -56,7 +56,7 @@ func (api *API) GetProfileByProfileIDList(
 	defer response.Body.Close()
 
 	decoder := json.NewDecoder(response.Body)
-	var profileList []*profile.Profile
+	var profileList []profile.Profile
 	responseBodyDecodeError := decoder.Decode(&profileList)
 	if responseBodyDecodeError != nil {
 		return nil, responseBodyDecodeError
