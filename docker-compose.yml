@@ -10,7 +10,7 @@ services:
     command: [nginx-debug, '-g', 'daemon off;']
 
   server:
-    build: .
+    image: kyhsa93/join-server
     restart: always
     env_file:
       - .env
