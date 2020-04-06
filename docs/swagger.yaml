@@ -66,6 +66,9 @@ definitions:
       interestedField:
         example: develop
         type: string
+      public:
+        example: true
+        type: boolean
       recruitEndDate:
         example: "2020-03-31T10:50:32.666Z"
         type: string
@@ -116,13 +119,15 @@ definitions:
         example: accountId
         type: string
       provider:
+        example: gmail
         type: string
       updatedAt:
         example: "2019-12-23 12:27:37"
         type: string
     type: object
   model.Address:
-    items: {}
+    items:
+      type: string
     type: array
   model.File:
     properties:
@@ -322,7 +327,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/body.CreateAccount'
-          type: object
       produces:
       - application/json
       responses:
@@ -343,7 +347,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/body.UpdateAccount'
-          type: object
       produces:
       - application/json
       responses:
@@ -464,7 +467,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/body.CreateProfile'
-          type: object
       produces:
       - application/json
       responses:
@@ -487,7 +489,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/body.UpdateProfile'
-          type: object
       produces:
       - application/json
       responses:
@@ -530,7 +531,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/body.CreateStudy'
-          type: object
       produces:
       - application/json
       responses:

@@ -79,7 +79,6 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/body.UpdateAccount"
                         }
                     }
@@ -111,7 +110,6 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/body.CreateAccount"
                         }
                     }
@@ -327,7 +325,6 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/body.UpdateProfile"
                         }
                     }
@@ -364,7 +361,6 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/body.CreateProfile"
                         }
                     }
@@ -433,7 +429,6 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
                             "$ref": "#/definitions/body.CreateStudy"
                         }
                     }
@@ -568,6 +563,10 @@
                     "type": "string",
                     "example": "develop"
                 },
+                "public": {
+                    "type": "boolean",
+                    "example": true
+                },
                 "recruitEndDate": {
                     "type": "string",
                     "example": "2020-03-31T10:50:32.666Z"
@@ -638,7 +637,8 @@
                     "example": "accountId"
                 },
                 "provider": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "gmail"
                 },
                 "updatedAt": {
                     "type": "string",
@@ -648,7 +648,9 @@
         },
         "model.Address": {
             "type": "array",
-            "items": {}
+            "items": {
+                "type": "string"
+            }
         },
         "model.File": {
             "type": "object",
