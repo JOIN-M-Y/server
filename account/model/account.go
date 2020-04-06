@@ -11,7 +11,7 @@ import (
 type Account struct {
 	ID          string    `json:"id" example:"accountId"`
 	Email       string    `json:"email" example:"test@gmail.com"`
-	Provider    string    `json:"provider" exmaple:"gmail"`
+	Provider    string    `json:"provider" example:"gmail"`
 	AccessToken string    `json:"accessToken" example:"accesstoken"`
 	CreatedAt   time.Time `json:"createdAt" example:"2019-12-23 12:27:37"`
 	UpdatedAt   time.Time `json:"updatedAt" example:"2019-12-23 12:27:37"`
@@ -33,7 +33,7 @@ func (account *Account) CreateAccessToken(
 	account.AccessToken = tokenString
 }
 
-// GetTokenIssuer get accesstokrn issuer from jwt
+// GetTokenIssuer get accessToken issuer from jwt
 func (account *Account) GetTokenIssuer(accessTokenSecret string) (string, error) {
 	if account.AccessToken == "" {
 		return "", errors.New("token does not exist")

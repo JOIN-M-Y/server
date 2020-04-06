@@ -22,7 +22,7 @@ type Interface interface {
 		recruitEndDate time.Time,
 		publicAbility bool,
 		interestedField string,
-		recommandation int,
+		recommendation int,
 		firstRegionDepthName string,
 		secondRegionDepthName string,
 	) (entity.Group, error)
@@ -34,7 +34,7 @@ type Interface interface {
 		recruitEndDate time.Time,
 		publicAbility bool,
 		interestedField string,
-		recommandation int,
+		recommendation int,
 		firstRegionDepthName string,
 		secondRegionDepthName string,
 	) (entity.Group, error)
@@ -94,7 +94,7 @@ func (repository *Repository) Create(
 	recruitEndDate time.Time,
 	publicAbility bool,
 	interestedField string,
-	recommandation int,
+	recommendation int,
 	firstRegionDepthName string,
 	secondRegionDepthName string,
 ) (entity.Group, error) {
@@ -111,7 +111,7 @@ func (repository *Repository) Create(
 		RecruitEndDate:        recruitEndDate,
 		PublicAbility:         publicAbility,
 		InterestedField:       interestedField,
-		Recommandation:        recommandation,
+		Recommendation:        recommendation,
 		FirstRegionDepthName:  firstRegionDepthName,
 		SecondRegionDepthName: secondRegionDepthName,
 		CreatedAt:             time.Now(),
@@ -137,7 +137,7 @@ func (repository *Repository) Update(
 	recruitEndDate time.Time,
 	publicAbility bool,
 	interestedField string,
-	recommandation int,
+	recommendation int,
 	firstRegionDepthName string,
 	secondRegionDepthName string,
 ) (entity.Group, error) {
@@ -149,7 +149,7 @@ func (repository *Repository) Update(
 		"recruitEndDate":        recruitEndDate,
 		"publicAbility":         publicAbility,
 		"interestedField":       interestedField,
-		"recommandation":        recommandation,
+		"recommendation":        recommendation,
 		"firstRegionDepthName":  firstRegionDepthName,
 		"secondRegionDepthName": secondRegionDepthName,
 		"updatedAt":             time.Now(),
