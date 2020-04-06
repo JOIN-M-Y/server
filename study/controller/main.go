@@ -47,6 +47,7 @@ func New(
 func (controller *Controller) SetupRoutes() {
 	controller.route.POST("studies", controller.create)
 	controller.route.GET("studies/:id", controller.readByID)
+	controller.route.PUT("studies/:id", controller.update)
 }
 
 // GetProfileByAccessToken get profile data

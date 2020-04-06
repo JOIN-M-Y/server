@@ -29,6 +29,21 @@ type Interface interface {
 	FindByID(
 		studyID string,
 	) (entity.Study, error)
+	FindByOwnerProfileID(
+		ownerProfileID string,
+	) ([]entity.Study, error)
+	Update(
+		studyID string,
+		title string,
+		description string,
+		recruitment int,
+		recruitEndDate time.Time,
+		public bool,
+		addressFirstDepthName string,
+		addressSecondDepthName string,
+		interestedField string,
+		membersProfileID []string,
+	) (entity.Study, error)
 }
 
 // Repository repository for study data
@@ -128,4 +143,66 @@ func (repository *Repository) FindByID(
 	).Decode(&studyEntity)
 	repository.setCache(studyID, &studyEntity)
 	return studyEntity, nil
+}
+
+// FindByOwnerProfileID find study by study owner profileID
+func (repository *Repository) FindByOwnerProfileID(
+	ownerProfileID string,
+) ([]entity.Study, error) {
+	studyEntityList := []entity.Study{}
+	cursor, err := repository.mongo.Find(
+		context.TODO(),
+		bson.M{
+			"ownerProfileId": ownerProfileID,
+			"deletedAt":      nil,
+		},
+	)
+	if err != nil {
+		panic(err)
+	}
+	cursor.All(context.TODO(), &studyEntityList)
+	return studyEntityList, nil
+}
+
+// Update update study data
+func (repository *Repository) Update(
+	studyID string,
+	title string,
+	description string,
+	recruitment int,
+	recruitEndDate time.Time,
+	public bool,
+	addressFirstDepthName string,
+	addressSecondDepthName string,
+	interestedField string,
+	membersProfileID []string,
+) (entity.Study, error) {
+	condition := bson.M{"_id": studyID}
+	_, err := repository.mongo.UpdateOne(
+		context.TODO(),
+		condition,
+		bson.M{
+			"$set": bson.M{
+				"title":                  title,
+				"description":            description,
+				"recruitment":            recruitment,
+				"recruitEndDate":         recruitEndDate,
+				"public":                 public,
+				"addressFirstDepthName":  addressFirstDepthName,
+				"addressSecondDepthName": addressSecondDepthName,
+				"interestedField":        interestedField,
+				"membersProfileId":       membersProfileID,
+			},
+		},
+	)
+	if err != nil {
+		panic(err)
+	}
+	updated := entity.Study{}
+	repository.mongo.FindOne(
+		context.TODO(),
+		bson.M{"_id": studyID},
+	).Decode(&updated)
+	repository.setCache(studyID, &updated)
+	return updated, nil
 }

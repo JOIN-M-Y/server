@@ -37,6 +37,8 @@ func (bus *Bus) Handle(
 	switch command := command.(type) {
 	case *CreateStudyCommand:
 		return bus.handleCreateCommand(command)
+	case *UpdateStudyCommand:
+		return bus.handleUpdateCommand(command)
 	default:
 		return nil, errors.New("invalid command type")
 	}
@@ -55,13 +57,23 @@ func (bus *Bus) entityToModel(
 	studyModel.AddressSecondDepthName = entity.AddressSecondDepthName
 	studyModel.InterestedField = entity.InterestedField
 
+	profileIDList := []string{}
+	profileIDList = append(profileIDList, entity.OwnerProfileID)
+	profileIDList = append(profileIDList, entity.MembersProfileID...)
+
 	profileList, err := bus.api.GetProfileByProfileIDList(
-		[]string{entity.OwnerProfileID},
+		profileIDList,
 	)
 	if len(profileList) == 0 || err != nil {
 		panic(err)
 	}
 	ownerProfile := profileList[0]
 	studyModel.OwnerProfile = ownerProfile
+	if 1 < len(profileList) {
+		membersProfile := profileList[1:]
+		for _, memberProfile := range membersProfile {
+			studyModel.MembersProfile = append(studyModel.MembersProfile, memberProfile)
+		}
+	}
 	return &studyModel
 }

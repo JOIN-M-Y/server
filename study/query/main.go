@@ -31,10 +31,12 @@ func New(
 }
 
 // Handle handle query
-func (bus *Bus) Handle(query interface{}) (*model.Study, error) {
+func (bus *Bus) Handle(query interface{}) ([]model.Study, error) {
 	switch query := query.(type) {
 	case *ReadStudyByIDQuery:
 		return bus.handleReadStudyByIDQuery(query)
+	case *ReadStudyByOwnerProfileID:
+		return bus.handleReadStudyByOwnerProfileID(query)
 	default:
 		return nil, errors.New("query can not handled")
 	}
@@ -55,13 +57,10 @@ func (bus *Bus) entityToModel(
 
 	profileIDList := []string{}
 	profileIDList = append(profileIDList, entity.OwnerProfileID)
-
-	for _, memberProfileID := range entity.MembersProfileID {
-		profileIDList = append(profileIDList, memberProfileID)
-	}
+	profileIDList = append(profileIDList, entity.MembersProfileID...)
 
 	profileList, err := bus.api.GetProfileByProfileIDList(
-		[]string{entity.OwnerProfileID},
+		profileIDList,
 	)
 	if len(profileList) == 0 || err != nil {
 		panic(err)
@@ -70,8 +69,8 @@ func (bus *Bus) entityToModel(
 	studyModel.OwnerProfile = ownerProfile
 	if 1 < len(profileList) {
 		membersProfile := profileList[1:]
-		for index, memberProfile := range membersProfile {
-			studyModel.MembersProfile[index] = memberProfile
+		for _, memberProfile := range membersProfile {
+			studyModel.MembersProfile = append(studyModel.MembersProfile, memberProfile)
 		}
 	}
 	return &studyModel

@@ -23,4 +23,6 @@ type UpdateStudy struct {
 	Public                 bool      `json:"public" example:"true"`
 	AddressFirstDepthName  string    `json:"addressFirstDepthName" example:"서울"`
 	AddressSecondDepthName string    `json:"addressSecondDepthName" example:"강남"`
+	InterestedField        string    `json:"interestedField" example:"develop"`
+	MembersProfileID       []string  `json:"membersProfileId" example:"member1,member2"`
 }

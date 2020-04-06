@@ -104,6 +104,40 @@ definitions:
           type: string
         type: array
     type: object
+  body.UpdateStudy:
+    properties:
+      addressFirstDepthName:
+        example: 서울
+        type: string
+      addressSecondDepthName:
+        example: 강남
+        type: string
+      description:
+        example: description
+        type: string
+      interestedField:
+        example: develop
+        type: string
+      membersProfileId:
+        example:
+        - member1
+        - member2
+        items:
+          type: string
+        type: array
+      public:
+        example: true
+        type: boolean
+      recruitEndDate:
+        example: "2020-03-31T10:50:32.666Z"
+        type: string
+      recruitment:
+        example: 10
+        type: integer
+      title:
+        example: title
+        type: string
+    type: object
   model.Account:
     properties:
       accessToken:
@@ -556,6 +590,31 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Study'
+      tags:
+      - Studies
+  /studies{id}:
+    put:
+      consumes:
+      - application/json
+      description: update study
+      parameters:
+      - description: studyId
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: update study
+        in: body
+        name: UpdateStudy
+        required: true
+        schema:
+          $ref: '#/definitions/body.UpdateStudy'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      security:
+      - AccessToken: []
       tags:
       - Studies
 securityDefinitions:

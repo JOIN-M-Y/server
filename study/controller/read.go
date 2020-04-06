@@ -18,13 +18,13 @@ func (controller *Controller) readByID(context *gin.Context) {
 	query := &query.ReadStudyByIDQuery{
 		StudyID: id,
 	}
-	study, _ := controller.queryBus.Handle(
+	studyList, _ := controller.queryBus.Handle(
 		query,
 	)
-	if study == nil || study.ID == "" {
+	if studyList == nil || studyList[0].ID == "" {
 		httpError := controller.util.Error.HTTP.NotFound()
 		context.JSON(httpError.Code(), httpError.Message())
 		return
 	}
-	context.JSON(http.StatusOK, study)
+	context.JSON(http.StatusOK, studyList[0])
 }

@@ -467,6 +467,46 @@
                     }
                 }
             }
+        },
+        "/studies{id}": {
+            "put": {
+                "security": [
+                    {
+                        "AccessToken": []
+                    }
+                ],
+                "description": "update study",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Studies"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "studyId",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "update study",
+                        "name": "UpdateStudy",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/body.UpdateStudy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            }
         }
     },
     "definitions": {
@@ -614,6 +654,53 @@
                         "web",
                         "server"
                     ]
+                }
+            }
+        },
+        "body.UpdateStudy": {
+            "type": "object",
+            "properties": {
+                "addressFirstDepthName": {
+                    "type": "string",
+                    "example": "서울"
+                },
+                "addressSecondDepthName": {
+                    "type": "string",
+                    "example": "강남"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "description"
+                },
+                "interestedField": {
+                    "type": "string",
+                    "example": "develop"
+                },
+                "membersProfileId": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "member1",
+                        "member2"
+                    ]
+                },
+                "public": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "recruitEndDate": {
+                    "type": "string",
+                    "example": "2020-03-31T10:50:32.666Z"
+                },
+                "recruitment": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "title": {
+                    "type": "string",
+                    "example": "title"
                 }
             }
         },

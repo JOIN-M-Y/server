@@ -2,6 +2,7 @@ package dto
 
 import (
 	"errors"
+	"time"
 )
 
 // CreateStudy dto for create study
@@ -35,4 +36,17 @@ func (dto *CreateStudy) ValidationData() error {
 		return errors.New("owner profileId is empty")
 	}
 	return nil
+}
+
+// UpdateStudy dto for update study
+type UpdateStudy struct {
+	Title                  string
+	Description            string
+	Recruitment            int
+	RecruitEndDate         time.Time
+	Public                 bool
+	AddressFirstDepthName  string
+	AddressSecondDepthName string
+	InterestedField        string
+	MembersProfileID       []string
 }

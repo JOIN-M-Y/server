@@ -9,8 +9,8 @@ import (
 func (bus *Bus) handleUpdateCommand(
 	command *UpdateProfileCommand,
 ) (*model.Profile, error) {
-	olddData, err := bus.repository.FindByID(command.ID)
-	if olddData.ID == "" || err != nil {
+	oldData, err := bus.repository.FindByID(command.ID)
+	if oldData.ID == "" || err != nil {
 		return nil, errors.New("update target profile data is not found")
 	}
 

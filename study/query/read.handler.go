@@ -8,7 +8,7 @@ import (
 
 func (bus *Bus) handleReadStudyByIDQuery(
 	query *ReadStudyByIDQuery,
-) (*model.Study, error) {
+) ([]model.Study, error) {
 	studyEntity, err := bus.repository.FindByID(
 		query.StudyID,
 	)
@@ -18,5 +18,25 @@ func (bus *Bus) handleReadStudyByIDQuery(
 	if studyEntity.ID == "" {
 		return nil, errors.New("study is not found")
 	}
-	return bus.entityToModel(studyEntity), nil
+	studyList := []model.Study{}
+	study := bus.entityToModel(studyEntity)
+	studyList = append(studyList, *study)
+	return studyList, nil
+}
+
+func (bus *Bus) handleReadStudyByOwnerProfileID(
+	query *ReadStudyByOwnerProfileID,
+) ([]model.Study, error) {
+	studyEntityList, err := bus.repository.FindByOwnerProfileID(
+		query.OwnerProfileID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	studyList := []model.Study{}
+	for _, studyEntity := range studyEntityList {
+		study := bus.entityToModel(studyEntity)
+		studyList = append(studyList, *study)
+	}
+	return studyList, nil
 }
