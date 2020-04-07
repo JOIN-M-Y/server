@@ -12,5 +12,6 @@ type CreateStudyCommand struct {
 	AddressFirstDepthName  string
 	AddressSecondDepthName string
 	InterestedField        string
+	InterestedFieldDetail  []string
 	OwnerProfileID         string
 }

@@ -13,5 +13,6 @@ type UpdateStudyCommand struct {
 	AddressFirstDepthName  string
 	AddressSecondDepthName string
 	InterestedField        string
+	InterestedFieldDetail  []string
 	MembersProfileID       []string
 }

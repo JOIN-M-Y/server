@@ -42,9 +42,9 @@ func (controller *Controller) update(context *gin.Context) {
 	studyList, err := controller.queryBus.Handle(
 		query,
 	)
-	study := studyList[0]
-	if study.ID == "" || err != nil {
-		httpError := controller.util.Error.HTTP.InternalServerError()
+
+	if len(studyList) == 0 || err != nil {
+		httpError := controller.util.Error.HTTP.NotFound()
 		context.JSON(httpError.Code(), httpError.Message())
 		return
 	}
@@ -58,10 +58,11 @@ func (controller *Controller) update(context *gin.Context) {
 		AddressFirstDepthName:  data.AddressFirstDepthName,
 		AddressSecondDepthName: data.AddressSecondDepthName,
 		InterestedField:        data.InterestedField,
+		InterestedFieldDetail:  data.InterestedFieldDetail,
 		MembersProfileID:       data.MembersProfileID,
 	}
 
-	updatedStudy, err := controller.commandBus.Handle(
+	_, err = controller.commandBus.Handle(
 		command,
 	)
 	if err != nil {
@@ -69,5 +70,5 @@ func (controller *Controller) update(context *gin.Context) {
 		context.JSON(httpError.Code(), httpError.Message())
 		return
 	}
-	context.JSON(http.StatusOK, updatedStudy)
+	context.JSON(http.StatusOK, nil)
 }

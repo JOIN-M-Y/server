@@ -19,6 +19,7 @@ func (bus *Bus) handleCreateCommand(
 		command.AddressFirstDepthName,
 		command.AddressSecondDepthName,
 		command.InterestedField,
+		command.InterestedFieldDetail,
 		command.OwnerProfileID,
 		[]string{},
 	)

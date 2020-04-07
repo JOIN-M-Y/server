@@ -7,6 +7,7 @@ type CreateStudy struct {
 	Title                  string    `json:"title" example:"title"`
 	Description            string    `json:"description" example:"description"`
 	InterestedField        string    `json:"interestedField" example:"develop"`
+	InterestedFieldDetail  []string  `json:"interestedFieldDetail" example:"web,server"`
 	Recruitment            int       `json:"recruitment" example:"10"`
 	RecruitEndDate         time.Time `json:"recruitEndDate" example:"2020-03-31T10:50:32.666Z"`
 	Public                 bool      `json:"public" example:"true"`
@@ -24,5 +25,6 @@ type UpdateStudy struct {
 	AddressFirstDepthName  string    `json:"addressFirstDepthName" example:"서울"`
 	AddressSecondDepthName string    `json:"addressSecondDepthName" example:"강남"`
 	InterestedField        string    `json:"interestedField" example:"develop"`
+	InterestedFieldDetail  []string  `json:"interestedFieldDetail" example:"web,server"`
 	MembersProfileID       []string  `json:"membersProfileId" example:"member1,member2"`
 }

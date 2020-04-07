@@ -25,6 +25,7 @@ func (bus *Bus) handleUpdateCommand(
 		command.AddressFirstDepthName,
 		command.AddressSecondDepthName,
 		command.InterestedField,
+		command.InterestedFieldDetail,
 		command.MembersProfileID,
 	)
 	if err != nil {

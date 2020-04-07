@@ -13,6 +13,7 @@ type Study struct {
 	AddressFirstDepthName  string     `json:"addressFirstDepthName" bson:"addressFirstDepthName"`
 	AddressSecondDepthName string     `json:"addressSecondDepthName" bson:"addressSecondDepthName"`
 	InterestedField        string     `json:"interestedField" bson:"interestedField"`
+	InterestedFieldDetail  []string   `json:"interestedFieldDetail" bson:"interestedFieldDetail"`
 	OwnerProfileID         string     `json:"ownerProfileId" bson:"ownerProfileId"`
 	MembersProfileID       []string   `json:"membersProfileId" bson:"membersProfileId"`
 	CreatedAt              time.Time  `json:"createdAt" bson:"createdAt"`

@@ -15,6 +15,7 @@ type CreateStudy struct {
 	AddressFirstDepthName  string
 	AddressSecondDepthName string
 	InterestedField        string
+	InterestedFieldDetail  []string
 	OwnerProfileID         string
 }
 
@@ -48,5 +49,6 @@ type UpdateStudy struct {
 	AddressFirstDepthName  string
 	AddressSecondDepthName string
 	InterestedField        string
+	InterestedFieldDetail  []string
 	MembersProfileID       []string
 }

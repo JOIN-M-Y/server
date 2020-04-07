@@ -56,6 +56,7 @@ func (bus *Bus) entityToModel(
 	studyModel.AddressFirstDepthName = entity.AddressFirstDepthName
 	studyModel.AddressSecondDepthName = entity.AddressSecondDepthName
 	studyModel.InterestedField = entity.InterestedField
+	studyModel.InterestedFieldDetail = entity.InterestedFieldDetail
 
 	profileIDList := []string{}
 	profileIDList = append(profileIDList, entity.OwnerProfileID)

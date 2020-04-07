@@ -23,6 +23,7 @@ type Interface interface {
 		addressFirstDepthName string,
 		addressSecondDepthName string,
 		interestedField string,
+		interestedFieldDetail []string,
 		ownerProfileID string,
 		membersProfileID []string,
 	) (entity.Study, error)
@@ -42,6 +43,7 @@ type Interface interface {
 		addressFirstDepthName string,
 		addressSecondDepthName string,
 		interestedField string,
+		interestedFieldDetail []string,
 		membersProfileID []string,
 	) (entity.Study, error)
 }
@@ -100,6 +102,7 @@ func (repository *Repository) Create(
 	addressFirstDepthName string,
 	addressSecondDepthName string,
 	interestedField string,
+	interestedFieldDetail []string,
 	ownerProfileID string,
 	membersProfileID []string,
 ) (entity.Study, error) {
@@ -113,6 +116,7 @@ func (repository *Repository) Create(
 		AddressFirstDepthName:  addressFirstDepthName,
 		AddressSecondDepthName: addressSecondDepthName,
 		InterestedField:        interestedField,
+		InterestedFieldDetail:  interestedFieldDetail,
 		OwnerProfileID:         ownerProfileID,
 		MembersProfileID:       membersProfileID,
 		CreatedAt:              time.Now(),
@@ -175,6 +179,7 @@ func (repository *Repository) Update(
 	addressFirstDepthName string,
 	addressSecondDepthName string,
 	interestedField string,
+	interestedFieldDetail []string,
 	membersProfileID []string,
 ) (entity.Study, error) {
 	condition := bson.M{"_id": studyID}
@@ -191,6 +196,7 @@ func (repository *Repository) Update(
 				"addressFirstDepthName":  addressFirstDepthName,
 				"addressSecondDepthName": addressSecondDepthName,
 				"interestedField":        interestedField,
+				"interestedFieldDetail":  interestedFieldDetail,
 				"membersProfileId":       membersProfileID,
 			},
 		},

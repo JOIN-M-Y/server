@@ -66,6 +66,13 @@ definitions:
       interestedField:
         example: develop
         type: string
+      interestedFieldDetail:
+        example:
+        - web
+        - server
+        items:
+          type: string
+        type: array
       public:
         example: true
         type: boolean
@@ -118,6 +125,13 @@ definitions:
       interestedField:
         example: develop
         type: string
+      interestedFieldDetail:
+        example:
+        - web
+        - server
+        items:
+          type: string
+        type: array
       membersProfileId:
         example:
         - member1
@@ -229,6 +243,13 @@ definitions:
       interestedField:
         example: develop
         type: string
+      interestedFieldDetail:
+        example:
+        - web
+        - server
+        items:
+          type: string
+        type: array
       membersProfile:
         items:
           properties:

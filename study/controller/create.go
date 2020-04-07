@@ -59,6 +59,7 @@ func (controller *Controller) create(context *gin.Context) {
 		AddressFirstDepthName:  data.AddressFirstDepthName,
 		AddressSecondDepthName: data.AddressSecondDepthName,
 		InterestedField:        data.InterestedField,
+		InterestedFieldDetail:  data.InterestedFieldDetail,
 		OwnerProfileID:         data.OwnerProfileID,
 	}
 
