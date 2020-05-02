@@ -13,7 +13,15 @@ import (
 // @Param id path string true "requestId"
 // @Success 200
 // @Router /requests/{id} [put]
+// @Security AccessToken
 func (controller *Controller) update(context *gin.Context) {
+	accessToken := context.GetHeader("Authorization")
+	if accessToken == "" {
+		httpError := controller.util.Error.HTTP.Unauthorized()
+		context.JSON(httpError.Code(), httpError.Message())
+		return
+	}
+
 	requestID := context.Param("requestId")
 	if requestID == "" {
 		httpError := controller.util.Error.HTTP.BadRequest()
@@ -22,7 +30,8 @@ func (controller *Controller) update(context *gin.Context) {
 	}
 
 	command := &command.UpdateRequestCommand{
-		RequestID: requestID,
+		RequestID:   requestID,
+		AccessToken: accessToken,
 	}
 	request, err := controller.commandBus.Handle(command)
 	if err != nil {

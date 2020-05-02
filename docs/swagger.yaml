@@ -346,6 +346,9 @@ definitions:
       public:
         example: true
         type: boolean
+      recruitEndDate:
+        example: "2020-03-31T10:50:32.666Z"
+        type: string
       recruitment:
         example: 10
         type: integer
@@ -653,6 +656,8 @@ paths:
       - application/json
       responses:
         "200": {}
+      security:
+      - AccessToken: []
       tags:
       - Requests
   /studies:
@@ -694,7 +699,6 @@ paths:
             $ref: '#/definitions/model.Study'
       tags:
       - Studies
-  /studies{id}:
     put:
       consumes:
       - application/json

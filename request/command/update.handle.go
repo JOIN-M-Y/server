@@ -12,6 +12,20 @@ func (bus *Bus) handleUpdateCommand(command *UpdateRequestCommand) (*model.Reque
 		return nil, errors.New("update target request is not found")
 	}
 
+	profile, err := bus.api.GetProfileByAccessToken(command.AccessToken)
+	if err != nil {
+		panic(err)
+	}
+
+	study, err := bus.api.GetStudyByID(oldData.StudyID)
+	if err != nil {
+		panic(err)
+	}
+
+	study.MembersProfile = append(study.MembersProfile, *profile)
+
+	bus.api.UpdateStudy(command.AccessToken, study)
+
 	request, err := bus.repository.Update(command.RequestID)
 	return bus.entityToModel(request), err
 }

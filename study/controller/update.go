@@ -16,7 +16,7 @@ import (
 // @Param id path string true "studyId"
 // @Param UpdateStudy body body.UpdateStudy true "update study"
 // @Success 200
-// @Router /studies{id} [put]
+// @Router /studies/{id} [put]
 // @Security AccessToken
 func (controller *Controller) update(context *gin.Context) {
 	accessToken := context.GetHeader("Authorization")

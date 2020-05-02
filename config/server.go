@@ -11,6 +11,7 @@ type ServerConfigInterface interface {
 	FileServiceEndPoint() string
 	AccountServiceEndPoint() string
 	ProfileServiceEndPoint() string
+	StudyServiceEndPoint() string
 }
 
 // Server server config struct
@@ -20,6 +21,7 @@ type Server struct {
 	fileServiceEndPoint    string
 	accountServiceEndPoint string
 	profileServiceEndPoint string
+	studyServiceEndPoint   string
 }
 
 // NewServerConfig create server config struct instance
@@ -29,6 +31,7 @@ func NewServerConfig() *Server {
 	fileServiceEndPoint := "http://localhost:5000/files"
 	accountServiceEndPoint := "http://localhost:5000/accounts"
 	profileServiceEndPoint := "http://localhost:5000/profiles"
+	studyServiceEndPoint := "http://localhost:5000/studies"
 
 	if env := os.Getenv("PORT"); env != "" {
 		port = env
@@ -45,12 +48,16 @@ func NewServerConfig() *Server {
 	if env := os.Getenv("PROFILE_API_ADDRESS"); env != "" {
 		profileServiceEndPoint = env
 	}
+	if env := os.Getenv("STUDY_API_ADDRESS"); env != "" {
+		studyServiceEndPoint = env
+	}
 	server := &Server{
 		port:                   port,
 		mode:                   mode,
 		fileServiceEndPoint:    fileServiceEndPoint,
 		accountServiceEndPoint: accountServiceEndPoint,
 		profileServiceEndPoint: profileServiceEndPoint,
+		studyServiceEndPoint:   studyServiceEndPoint,
 	}
 	if server.mode != "release" && server.mode != "debug" {
 		panic("Unavailable gin mode")
@@ -81,4 +88,9 @@ func (server *Server) AccountServiceEndPoint() string {
 // ProfileServiceEndPoint get profile service endpoint
 func (server *Server) ProfileServiceEndPoint() string {
 	return server.profileServiceEndPoint
+}
+
+// StudyServiceEndPoint study service endpoint
+func (server *Server) StudyServiceEndPoint() string {
+	return server.studyServiceEndPoint
 }

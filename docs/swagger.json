@@ -467,6 +467,11 @@
         },
         "/requests/{id}": {
             "put": {
+                "security": [
+                    {
+                        "AccessToken": []
+                    }
+                ],
                 "description": "update request",
                 "produces": [
                     "application/json"
@@ -549,9 +554,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/studies{id}": {
+            },
             "put": {
                 "security": [
                     {
@@ -1076,6 +1079,10 @@
                 "public": {
                     "type": "boolean",
                     "example": true
+                },
+                "recruitEndDate": {
+                    "type": "string",
+                    "example": "2020-03-31T10:50:32.666Z"
                 },
                 "recruitment": {
                     "type": "integer",
