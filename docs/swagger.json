@@ -465,6 +465,29 @@
                 }
             }
         },
+        "/requests/{id}": {
+            "put": {
+                "description": "update request",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Requests"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "requestId",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            }
+        },
         "/studies": {
             "post": {
                 "security": [

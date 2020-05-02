@@ -17,11 +17,9 @@ type Interface interface {
 		profileID string,
 		studyID string,
 	) (entity.Request, error)
-	Update(
-		requestID string,
-		status string,
-	) (entity.Request, error)
+	Update(requestID string) (entity.Request, error)
 	FindByStudyID(studyID string) ([]entity.Request, error)
+	FindByID(requestID string) entity.Request
 }
 
 // Repository repository for request data
@@ -65,7 +63,6 @@ func (repository *Repository) Create(
 // Update update request
 func (repository *Repository) Update(
 	requestID string,
-	status string,
 ) (entity.Request, error) {
 	condition := bson.M{"_id": requestID}
 	_, err := repository.mongo.UpdateOne(
@@ -73,7 +70,7 @@ func (repository *Repository) Update(
 		condition,
 		bson.M{
 			"$set": bson.M{
-				"status":    status,
+				"status":    "accepted",
 				"updatedAt": time.Now(),
 			},
 		},
@@ -98,4 +95,11 @@ func (repository *Repository) FindByStudyID(studyID string) ([]entity.Request, e
 	}
 	cursor.All(context.TODO(), &requestEntityList)
 	return requestEntityList, err
+}
+
+// FindByID find request by id
+func (repository *Repository) FindByID(requestID string) entity.Request {
+	request := entity.Request{}
+	repository.mongo.FindOne(context.TODO(), bson.M{"_id": requestID}).Decode(&request)
+	return request
 }

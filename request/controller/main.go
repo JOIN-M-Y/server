@@ -28,4 +28,5 @@ func New(route *gin.Engine, commandBus *command.Bus, queryBus *query.Bus, util *
 func (controller *Controller) SetupRoutes() {
 	controller.route.POST("requests", controller.create)
 	controller.route.GET("requests", controller.readList)
+	controller.route.PUT("requests/:requestId", controller.update)
 }

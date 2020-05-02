@@ -640,6 +640,21 @@ paths:
       - AccessToken: []
       tags:
       - Requests
+  /requests/{id}:
+    put:
+      description: update request
+      parameters:
+      - description: requestId
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      tags:
+      - Requests
   /studies:
     post:
       consumes:

@@ -35,6 +35,8 @@ func (bus *Bus) Handle(command interface{}) (*model.Request, error) {
 	switch command := command.(type) {
 	case *CreateRequestCommand:
 		return bus.handleCreateCommand(command)
+	case *UpdateRequestCommand:
+		return bus.handleUpdateCommand(command)
 	default:
 		return nil, errors.New("invalid command type")
 	}
