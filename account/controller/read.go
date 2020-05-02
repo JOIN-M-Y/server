@@ -48,15 +48,15 @@ func (controller *Controller) readAccount(context *gin.Context) {
 		return
 	}
 
-	emaiFormatlValidationError := checkmail.ValidateFormat(email)
-	if emaiFormatlValidationError != nil {
+	emailFormatValidationError := checkmail.ValidateFormat(email)
+	if emailFormatValidationError != nil {
 		httpError := controller.util.Error.HTTP.BadRequest()
 		context.JSON(httpError.Code(), httpError.Message())
 		return
 	}
 
-	emaiHostlValidationError := checkmail.ValidateHost(email)
-	if emaiHostlValidationError != nil {
+	emailHostValidationError := checkmail.ValidateHost(email)
+	if emailHostValidationError != nil {
 		httpError := controller.util.Error.HTTP.BadRequest()
 		context.JSON(httpError.Code(), "Email host is not existed.")
 		return

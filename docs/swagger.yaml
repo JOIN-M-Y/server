@@ -604,6 +604,22 @@ paths:
       tags:
       - Profiles
   /requests:
+    get:
+      parameters:
+      - description: studyId
+        in: query
+        name: study_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Request'
+      tags:
+      - Requests
     post:
       consumes:
       - application/json

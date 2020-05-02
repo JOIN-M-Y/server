@@ -21,6 +21,7 @@ type Interface interface {
 		requestID string,
 		status string,
 	) (entity.Request, error)
+	FindByStudyID(studyID string) ([]entity.Request, error)
 }
 
 // Repository repository for request data
@@ -86,4 +87,15 @@ func (repository *Repository) Update(
 		bson.M{"_id": requestID},
 	).Decode(&updated)
 	return updated, nil
+}
+
+// FindByStudyID find request data using studyId
+func (repository *Repository) FindByStudyID(studyID string) ([]entity.Request, error) {
+	requestEntityList := []entity.Request{}
+	cursor, err := repository.mongo.Find(context.TODO(), bson.M{"studyId": studyID})
+	if err != nil {
+		panic(err)
+	}
+	cursor.All(context.TODO(), &requestEntityList)
+	return requestEntityList, err
 }

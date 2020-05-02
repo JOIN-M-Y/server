@@ -7,6 +7,7 @@ import (
 	"github.com/JOIN-M-Y/server/request/api"
 	"github.com/JOIN-M-Y/server/request/command"
 	"github.com/JOIN-M-Y/server/request/controller"
+	"github.com/JOIN-M-Y/server/request/query"
 	"github.com/JOIN-M-Y/server/request/repository"
 	"github.com/JOIN-M-Y/server/util"
 	"github.com/gin-gonic/gin"
@@ -30,7 +31,7 @@ func getMongoDBClient(config config.Interface) *mongo.Collection {
 	client.Ping(context.TODO(), nil)
 	collection := client.Database(
 		config.Database().Name(),
-	).Collection("accounts")
+	).Collection("requests")
 
 	return collection
 }
@@ -51,5 +52,6 @@ func Initialize(
 	repository := repository.New(redisClient, mongoClient)
 	api := api.New(config)
 	commandBus := command.New(repository, api, config)
-	controller.New(engine, commandBus, util)
+	queryBus := query.New(config, repository)
+	controller.New(engine, commandBus, queryBus, util)
 }

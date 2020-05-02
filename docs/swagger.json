@@ -406,6 +406,31 @@
             }
         },
         "/requests": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Requests"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "studyId",
+                        "name": "study_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Request"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
