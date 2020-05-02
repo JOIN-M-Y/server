@@ -34,15 +34,15 @@ func (controller *Controller) create(context *gin.Context) {
 		return
 	}
 
-	emaiFormatlValidationError := checkmail.ValidateFormat(data.Email)
-	if emaiFormatlValidationError != nil {
+	emailFormatValidationError := checkmail.ValidateFormat(data.Email)
+	if emailFormatValidationError != nil {
 		httpError := controller.util.Error.HTTP.BadRequest()
 		context.JSON(httpError.Code(), "Email format is not valid")
 		return
 	}
 
-	emaiHostlValidationError := checkmail.ValidateHost(data.Email)
-	if emaiHostlValidationError != nil {
+	emailHostValidationError := checkmail.ValidateHost(data.Email)
+	if emailHostValidationError != nil {
 		httpError := controller.util.Error.HTTP.BadRequest()
 		context.JSON(httpError.Code(), "Email host is not existed")
 		return

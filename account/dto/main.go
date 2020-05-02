@@ -21,7 +21,7 @@ func InterestedField() map[string][]string {
 	return map[string][]string{
 		"develop": []string{"web", "server", "mobile", "dataScience", "game", "iot"},
 		"design":  []string{"bx", "ux/ui", "video", "3d", "illustration"},
-		"plan":    []string{"ga", "ux", "reverse", "marcketing"},
+		"plan":    []string{"ga", "ux", "reverse", "marketing"},
 	}
 }
 

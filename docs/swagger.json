@@ -405,6 +405,41 @@
                 }
             }
         },
+        "/requests": {
+            "post": {
+                "security": [
+                    {
+                        "AccessToken": []
+                    }
+                ],
+                "description": "create request",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Requests"
+                ],
+                "parameters": [
+                    {
+                        "description": "Create request data",
+                        "name": "CreateRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/body.CreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Request"
+                        }
+                    }
+                }
+            }
+        },
         "/studies": {
             "post": {
                 "security": [
@@ -581,6 +616,18 @@
                         "web",
                         "server"
                     ]
+                }
+            }
+        },
+        "body.CreateRequest": {
+            "type": "object",
+            "required": [
+                "studyId"
+            ],
+            "properties": {
+                "studyId": {
+                    "type": "string",
+                    "example": "studyId"
                 }
             }
         },
@@ -824,6 +871,35 @@
                 "updatedAt": {
                     "type": "string",
                     "example": "2019-12-23 12:27:37"
+                }
+            }
+        },
+        "model.Request": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string",
+                    "example": "createdAt"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "requestId"
+                },
+                "profileId": {
+                    "type": "string",
+                    "example": "profileId"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "requested"
+                },
+                "studyId": {
+                    "type": "string",
+                    "example": "studyId"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "updatedAt"
                 }
             }
         },

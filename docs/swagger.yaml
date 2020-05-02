@@ -52,6 +52,14 @@ definitions:
           type: string
         type: array
     type: object
+  body.CreateRequest:
+    properties:
+      studyId:
+        example: studyId
+        type: string
+    required:
+    - studyId
+    type: object
   body.CreateStudy:
     properties:
       addressFirstDepthName:
@@ -224,6 +232,27 @@ definitions:
         type: array
       updatedAt:
         example: "2019-12-23 12:27:37"
+        type: string
+    type: object
+  model.Request:
+    properties:
+      createdAt:
+        example: createdAt
+        type: string
+      id:
+        example: requestId
+        type: string
+      profileId:
+        example: profileId
+        type: string
+      status:
+        example: requested
+        type: string
+      studyId:
+        example: studyId
+        type: string
+      updatedAt:
+        example: updatedAt
         type: string
     type: object
   model.Study:
@@ -574,6 +603,27 @@ paths:
             $ref: '#/definitions/model.Profile'
       tags:
       - Profiles
+  /requests:
+    post:
+      consumes:
+      - application/json
+      description: create request
+      parameters:
+      - description: Create request data
+        in: body
+        name: CreateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/body.CreateRequest'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Request'
+      security:
+      - AccessToken: []
+      tags:
+      - Requests
   /studies:
     post:
       consumes:
