@@ -40,3 +40,17 @@ func (bus *Bus) handleReadStudyByOwnerProfileID(
 	}
 	return studyList, nil
 }
+
+func (bus *Bus) handleRead(query *ReadStudyQuery) ([]model.Study, error) {
+	studyEntityList, err := bus.repository.Find(query.Limit, query.Cursor, query.Interested)
+	if err != nil {
+		panic(err)
+	}
+
+	studyList := []model.Study{}
+	for _, studyEntity := range studyEntityList {
+		study := bus.entityToModel(studyEntity)
+		studyList = append(studyList, *study)
+	}
+	return studyList, nil
+}

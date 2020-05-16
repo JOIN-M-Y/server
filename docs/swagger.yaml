@@ -356,6 +356,10 @@ definitions:
         example: title
         type: string
     type: object
+  model.StudyList:
+    items:
+      $ref: '#/definitions/model.Study'
+    type: array
 info:
   contact: {}
   license: {}
@@ -661,6 +665,34 @@ paths:
       tags:
       - Requests
   /studies:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: list count limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: pagenation cursor
+        in: query
+        name: cursor
+        required: true
+        type: string
+      - description: kind of list
+        in: query
+        name: interested
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.StudyList'
+      tags:
+      - Studies
     post:
       consumes:
       - application/json

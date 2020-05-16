@@ -9,3 +9,10 @@ type ReadStudyByIDQuery struct {
 type ReadStudyByOwnerProfileID struct {
 	OwnerProfileID string
 }
+
+// ReadStudyQuery read study list
+type ReadStudyQuery struct {
+	Limit      int
+	Cursor     string
+	Interested string
+}

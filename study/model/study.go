@@ -37,3 +37,6 @@ type Study struct {
 		UpdatedAt             time.Time `json:"updatedAt" example:"2019-12-23 12:27:37"`
 	}
 }
+
+// StudyList study model list
+type StudyList []Study

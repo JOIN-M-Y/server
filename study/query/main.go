@@ -37,6 +37,8 @@ func (bus *Bus) Handle(query interface{}) ([]model.Study, error) {
 		return bus.handleReadStudyByIDQuery(query)
 	case *ReadStudyByOwnerProfileID:
 		return bus.handleReadStudyByOwnerProfileID(query)
+	case *ReadStudyQuery:
+		return bus.handleRead(query)
 	default:
 		return nil, errors.New("query can not handled")
 	}

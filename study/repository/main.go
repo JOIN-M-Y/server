@@ -33,6 +33,7 @@ type Interface interface {
 	FindByOwnerProfileID(
 		ownerProfileID string,
 	) ([]entity.Study, error)
+	Find(limit int, cursor, interested string) ([]entity.Study, error)
 	Update(
 		studyID string,
 		title string,
@@ -165,6 +166,37 @@ func (repository *Repository) FindByOwnerProfileID(
 		panic(err)
 	}
 	cursor.All(context.TODO(), &studyEntityList)
+	return studyEntityList, nil
+}
+
+// Find find study list
+func (repository *Repository) Find(limit int, cursor, interested string) ([]entity.Study, error) {
+	studyEntityList := []entity.Study{}
+	cursorEntity := entity.Study{}
+	repository.mongo.FindOne(
+		context.TODO(),
+		bson.M{"_id": cursor, "deletedAt": nil},
+	).Decode(&cursorEntity)
+
+	if cursorEntity.ID == "" {
+		repository.mongo.FindOne(
+			context.TODO(),
+			bson.M{"deletedAt": nil},
+		).Decode(&cursorEntity)
+	}
+
+	mongoCursor, err := repository.mongo.Find(
+		context.TODO(),
+		bson.M{
+			"interestedField": interested,
+			"createdAt":       cursorEntity.CreatedAt,
+			"deletedAt":       nil,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	mongoCursor.All(context.TODO(), &studyEntityList)
 	return studyEntityList, nil
 }
 
