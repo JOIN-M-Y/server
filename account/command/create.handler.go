@@ -1,6 +1,7 @@
 package command
 
 import (
+	"github.com/JOIN-M-Y/server/account/entity"
 	"github.com/JOIN-M-Y/server/account/model"
 	"github.com/google/uuid"
 )
@@ -12,20 +13,22 @@ func (bus *Bus) handleCreateCommand(
 	hashedPassword, hashedSocialID :=
 		getHashedPasswordAndSocialID(command.Password, command.SocialID)
 
-	createdAccountEntity, createError := bus.repository.Create(
-		uuid.String(),
-		command.Email,
-		command.Provider,
-		hashedSocialID,
-		hashedPassword,
-		command.FCMToken,
-		command.Gender,
-	)
-	if createError != nil {
-		return nil, createError
+	entity := entity.Account{
+		ID:       uuid.String(),
+		Email:    command.Email,
+		Provider: command.Provider,
+		SocialID: hashedSocialID,
+		Password: hashedPassword,
+		FCMToken: command.FCMToken,
+		Gender:   command.Gender,
+	}
+
+	err := bus.repository.Create(&entity)
+	if err != nil {
+		return nil, err
 	}
 	bus.email.Send([]string{command.Email}, "Account is created.")
-	accountModel := bus.entityToModel(createdAccountEntity)
+	accountModel := bus.entityToModel(entity)
 	accountModel.CreateAccessToken(
 		bus.config.Auth().AccessTokenSecret(),
 		bus.config.Auth().AccessTokenExpiration(),

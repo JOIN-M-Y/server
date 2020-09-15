@@ -1,238 +1,72 @@
 package repository
 
 import (
-	"context"
-	"encoding/json"
-	"errors"
-	"time"
-
 	"github.com/JOIN-M-Y/server/account/entity"
-	"github.com/go-redis/redis"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/jinzhu/gorm"
 )
 
 // Interface repository inteface
 type Interface interface {
-	Create(
-		accountID string,
-		email string,
-		provider string,
-		socialID string,
-		password string,
-		fcmToken string,
-		gender string,
-	) (entity.Account, error)
-	Update(
-		accountID string,
-		password string,
-		fcmToken string,
-	) (entity.Account, error)
-	FindByEmailAndProvider(
-		email string, provider string, unscoped bool,
-	) entity.Account
-	FindByEmail(email string) entity.Account
-	FindByID(id string, unscoped bool) entity.Account
-	Delete(id string) entity.Account
+	Create(entity *entity.Account) error
+	Update(entity *entity.Account) error
+	Delete(accountID string) error
+	FindByID(accountID string, unscoped bool) (*entity.Account, error)
+	FindByEmailAndProvider(email string, provider string, unscoped bool) (*[]entity.Account, error)
+	FindByEmail(email string) (*[]entity.Account, error)
 }
 
 // Repository repository for query to database
-type Repository struct {
-	redis *redis.Client
-	mongo *mongo.Collection
-}
+type Repository struct{ connection *gorm.DB }
 
 // New create repository instance
-func New(
-	redis *redis.Client, mongo *mongo.Collection,
-) Interface {
-	return &Repository{mongo: mongo, redis: redis}
-}
-
-func (repository *Repository) setCache(
-	key string, accountEntity *entity.Account,
-) {
-	marshaledEntity, _ := json.Marshal(&accountEntity)
-	repository.redis.Set(
-		"account:"+key, string(marshaledEntity), time.Second,
-	)
-}
-
-func (repository *Repository) getCache(
-	key string,
-) *entity.Account {
-	data, getDataFromRedisError :=
-		repository.redis.Get("account:" + key).Result()
-	if getDataFromRedisError != nil {
-		return nil
-	}
-
-	entity := &entity.Account{}
-	jsonUnmarshalError := json.Unmarshal([]byte(data), entity)
-	if jsonUnmarshalError != nil {
-		return nil
-	}
-
-	if entity.ID == "" {
-		return nil
-	}
-	return entity
+func New(connection *gorm.DB) Interface {
+	return &Repository{connection: connection}
 }
 
 // Create create account
-func (repository *Repository) Create(
-	accountID string,
-	email string,
-	provider string,
-	socialID string,
-	password string,
-	fcmToken string,
-	gender string,
-) (entity.Account, error) {
-	sameEmailAccount := entity.Account{}
-	repository.mongo.FindOne(
-		context.TODO(),
-		bson.M{"email": email},
-	).Decode(&sameEmailAccount)
-
-	if sameEmailAccount.ID != "" {
-		return sameEmailAccount, errors.New("Duplicated Email")
-	}
-	accountEntity := entity.Account{
-		ID:        accountID,
-		Email:     email,
-		Provider:  provider,
-		Password:  password,
-		SocialID:  socialID,
-		FCMToken:  fcmToken,
-		Gender:    gender,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
-	insertResult, err := repository.mongo.InsertOne(
-		context.TODO(),
-		accountEntity,
-	)
-	if err != nil || insertResult == nil {
-		panic(err)
-	}
-	repository.setCache(accountID, &accountEntity)
-	return accountEntity, nil
+func (repository *Repository) Create(entity *entity.Account) error {
+	return repository.connection.Create(entity).Error
 }
 
 // Update update account
-func (repository *Repository) Update(
-	accountID string,
-	password string,
-	fcmToken string,
-) (entity.Account, error) {
-	condition := bson.M{"_id": accountID}
-	_, err := repository.mongo.UpdateOne(
-		context.TODO(),
-		condition,
-		bson.M{
-			"$set": bson.M{
-				"password":  password,
-				"fcmToken":  fcmToken,
-				"updatedAt": time.Now(),
-			},
-		},
-	)
-	if err != nil {
-		panic(err)
-	}
-	updated := entity.Account{}
-	repository.mongo.FindOne(
-		context.TODO(),
-		bson.M{"_id": accountID},
-	).Decode(&updated)
-	repository.setCache(accountID, &updated)
-	return updated, nil
-}
-
-// FindByEmailAndProvider find all account
-func (repository *Repository) FindByEmailAndProvider(
-	email string,
-	provider string,
-	unscoped bool,
-) entity.Account {
-	accountEntity := entity.Account{}
-
-	if cache := repository.getCache(email); cache != nil {
-		return *cache
-	}
-	repository.mongo.FindOne(
-		context.TODO(),
-		bson.M{"email": email, "provider": provider},
-	).Decode(&accountEntity)
-	repository.setCache(email, &accountEntity)
-	return accountEntity
-}
-
-// FindByEmail find account by email
-func (repository *Repository) FindByEmail(
-	email string,
-) entity.Account {
-	accountEntity := entity.Account{}
-
-	if cache := repository.getCache(email); cache != nil {
-		return *cache
-	}
-	repository.mongo.FindOne(
-		context.TODO(),
-		bson.M{"email": email},
-	).Decode(&accountEntity)
-	repository.setCache(email, &accountEntity)
-	return accountEntity
-}
-
-// FindByID find account by accountId
-func (repository *Repository) FindByID(
-	accountID string,
-	unscoped bool,
-) entity.Account {
-	accountEntity := entity.Account{}
-
-	if unscoped == true {
-		repository.mongo.FindOne(
-			context.TODO(),
-			bson.M{
-				"_id": accountID,
-				"$ne": []interface{}{bson.M{"deletedAt": nil}},
-			},
-		).Decode(&accountEntity)
-		return accountEntity
-	}
-
-	if cache := repository.getCache(accountID); cache != nil {
-		return *cache
-	}
-	repository.mongo.FindOne(
-		context.TODO(),
-		bson.M{"_id": accountID, "deletedAt": nil},
-	).Decode(&accountEntity)
-	repository.setCache(accountID, &accountEntity)
-	return accountEntity
+func (repository *Repository) Update(entity *entity.Account) error {
+	return repository.connection.Save(entity).Error
 }
 
 // Delete delete account by accountId
-func (repository *Repository) Delete(
-	accountID string,
-) entity.Account {
-	accountEntity := entity.Account{}
-	repository.mongo.FindOne(
-		context.TODO(),
-		bson.M{"_id": accountID, "deletedAt": nil},
-	).Decode(&accountEntity)
-	condition := bson.M{"_id": accountID}
-	repository.mongo.UpdateOne(
-		context.TODO(),
-		condition,
-		bson.M{
-			"$set": bson.M{
-				"deletedAt": time.Now(),
-			},
-		},
-	)
-	return accountEntity
+func (repository *Repository) Delete(accountID string) error {
+	condition := entity.Account{ID: accountID}
+	return repository.connection.Delete(condition).Error
+}
+
+// FindByID find account by accountId
+func (repository *Repository) FindByID(accountID string, unscoped bool) (*entity.Account, error) {
+	output := entity.Account{}
+	condition := entity.Account{ID: accountID}
+	if unscoped == true {
+		err := repository.connection.Unscoped().Where(condition).First(&output).Error
+		return &output, err
+	}
+	err := repository.connection.Unscoped().Where(condition).First(&output).Error
+	return &output, err
+}
+
+// FindByEmailAndProvider find all account
+func (repository *Repository) FindByEmailAndProvider(email string, provider string, unscoped bool) (*[]entity.Account, error) {
+	output := []entity.Account{}
+	condition := entity.Account{Email: email, Provider: provider}
+	if unscoped == true {
+		err := repository.connection.Unscoped().Where(condition).Find(output).Error
+		return &output, err
+	}
+	err := repository.connection.Where(condition).Find(&output).Error
+	return &output, err
+}
+
+// FindByEmail find account by email
+func (repository *Repository) FindByEmail(email string) (*[]entity.Account, error) {
+	output := []entity.Account{}
+	condition := entity.Account{Email: email}
+	err := repository.connection.Where(condition).Find(&output).Error
+	return &output, err
 }

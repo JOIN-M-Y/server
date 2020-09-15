@@ -9,10 +9,14 @@ import (
 func (bus *Bus) handleUpdateCommand(
 	command *UpdateCommand,
 ) (*model.Account, error) {
-	oldData := bus.repository.FindByID(command.AccountID, false)
+	oldData, err := bus.repository.FindByID(command.AccountID, false)
+	if err != nil {
+		return nil, err
+	}
 	if oldData.ID == "" {
 		return nil, errors.New("Update target Account data is not found")
 	}
+
 	hashedPassword, _ :=
 		getHashedPasswordAndSocialID(command.Password, "")
 
@@ -20,17 +24,16 @@ func (bus *Bus) handleUpdateCommand(
 		hashedPassword = oldData.Password
 	}
 
-	updatedAccountEntity, updateError := bus.repository.Update(
-		oldData.ID,
-		hashedPassword,
-		command.FCMToken,
-	)
-	if updateError != nil {
-		return nil, updateError
+	oldData.Password = hashedPassword
+	oldData.FCMToken = command.FCMToken
+
+	err = bus.repository.Update(oldData)
+	if err != nil {
+		return nil, err
 	}
 
 	bus.email.Send([]string{oldData.Email}, "Account is updated.")
-	accountModel := bus.entityToModel(updatedAccountEntity)
+	accountModel := bus.entityToModel(*oldData)
 	accountModel.CreateAccessToken(
 		bus.config.Auth().AccessTokenSecret(),
 		bus.config.Auth().AccessTokenExpiration(),
